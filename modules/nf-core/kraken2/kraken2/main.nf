@@ -9,7 +9,7 @@ process KRAKEN2_KRAKEN2 {
 
     input:
     tuple val(meta), path(reads)
-    path  db
+    path db
 
     output:
     tuple val(meta), path('*classified*')  , emit: classified
@@ -24,19 +24,16 @@ process KRAKEN2_KRAKEN2 {
     script:
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
-    def paired       = meta.single_end ? "" : "--paired"
-    def classified   = meta.single_end ? "${prefix}.classified.fastq"   : "${prefix}.classified#.fastq"
-    def unclassified = meta.single_end ? "${prefix}.unclassified.fastq" : "${prefix}.unclassified#.fastq"
+
     """
     kraken2 \\
         --db $db \\
         --threads $task.cpus \\
-        --unclassified-out $unclassified \\
-        --classified-out $classified \\
+        --unclassified-out ${prefix}.unclassified.fastq \\
+        --classified-out ${prefix}.classified.fastq \\
         --report ${prefix}.kraken2.report.txt \\
         --output ${prefix}.kraken2.out \\
         --gzip-compressed \\
-        $paired \\
         $args \\
         $reads
 
