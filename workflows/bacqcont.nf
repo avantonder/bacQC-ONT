@@ -56,7 +56,7 @@ include { KRAKENPARSE    } from '../modules/local/krakenparse'
 // MODULE: Installed directly from nf-core/modules
 //
 include { ARTIC_GUPPYPLEX               } from '../modules/nf-core/artic/guppyplex/main'
-include { FASTQC                        } from '../modules/nf-core/fastqscan/main'
+include { FASTQC                        } from '../modules/nf-core/fastqc/main'
 include { FASTQSCAN                     } from '../modules/nf-core/fastqscan/main'
 include { PYCOQC                        } from '../modules/nf-core/pycoqc/main'
 include { NANOPLOT                      } from '../modules/nf-core/nanoplot/main'
