@@ -52,24 +52,10 @@ WorkflowMain.initialise(workflow, params, log)
 include { BACQCONT } from './workflows/bacqcont'
 
 //
-// WORKFLOW: Run main nf-core/bacqcont analysis pipeline
-//
-workflow NFCORE_BACQCONT {
-    BACQCONT ()
-}
-
-/*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    RUN ALL WORKFLOWS
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*/
-
-//
-// WORKFLOW: Execute a single named workflow for the pipeline
-// See: https://github.com/nf-core/rnaseq/issues/619
+// WORKFLOW: Run main avantonder/bacQC-ONT analysis pipeline
 //
 workflow {
-    NFCORE_BACQCONT ()
+    BACQCONT ()
 }
 
 /*

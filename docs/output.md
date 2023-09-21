@@ -1,4 +1,4 @@
-# nf-core/bacqcont: Output
+# avantonder/bacQC-ONT: Output
 
 ## Introduction
 

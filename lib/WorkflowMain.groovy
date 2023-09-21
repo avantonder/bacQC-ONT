@@ -1,5 +1,5 @@
 //
-// This file holds several functions specific to the main.nf workflow in the nf-core/bacqcont pipeline
+// This file holds several functions specific to the main.nf workflow in the avantonder/bacQC-ONT pipeline
 //
 
 import nextflow.Nextflow
