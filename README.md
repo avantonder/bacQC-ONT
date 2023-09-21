@@ -1,6 +1,4 @@
-# ![nf-core/bacqcont](docs/images/nf-core-bacqcont_logo_light.png#gh-light-mode-only) ![nf-core/bacqcont](docs/images/nf-core-bacqcont_logo_dark.png#gh-dark-mode-only)
-
-[![AWS CI](https://img.shields.io/badge/CI%20tests-full%20size-FF9900?labelColor=000000&logo=Amazon%20AWS)](https://nf-co.re/bacqcont/results)[![Cite with Zenodo](http://img.shields.io/badge/DOI-10.5281/zenodo.XXXXXXX-1073c8?labelColor=000000)](https://doi.org/10.5281/zenodo.XXXXXXX)
+# ![avantonder/bacQC-ONT](docs/images/bacQC-ONT_metromap.png)
 
 [![Nextflow](https://img.shields.io/badge/nextflow%20DSL2-%E2%89%A523.04.0-23aa62.svg)](https://www.nextflow.io/)
 [![run with conda](http://img.shields.io/badge/run%20with-conda-3EB049?labelColor=000000&logo=anaconda)](https://docs.conda.io/en/latest/)
@@ -8,56 +6,52 @@
 [![run with singularity](https://img.shields.io/badge/run%20with-singularity-1d355c.svg?labelColor=000000)](https://sylabs.io/docs/)
 [![Launch on Nextflow Tower](https://img.shields.io/badge/Launch%20%F0%9F%9A%80-Nextflow%20Tower-%234256e7)](https://tower.nf/launch?pipeline=https://github.com/nf-core/bacqcont)
 
-[![Get help on Slack](http://img.shields.io/badge/slack-nf--core%20%23bacqcont-4A154B?labelColor=000000&logo=slack)](https://nfcore.slack.com/channels/bacqcont)[![Follow on Twitter](http://img.shields.io/badge/twitter-%40nf__core-1DA1F2?labelColor=000000&logo=twitter)](https://twitter.com/nf_core)[![Follow on Mastodon](https://img.shields.io/badge/mastodon-nf__core-6364ff?labelColor=FFFFFF&logo=mastodon)](https://mstdn.science/@nf_core)[![Watch on YouTube](http://img.shields.io/badge/youtube-nf--core-FF0000?labelColor=000000&logo=youtube)](https://www.youtube.com/c/nf-core)
-
 ## Introduction
 
-**nf-core/bacqcont** is a bioinformatics pipeline that ...
-
-<!-- TODO nf-core:
-   Complete this sentence with a 2-3 sentence summary of what types of data the pipeline ingests, a brief overview of the
-   major pipeline sections and the types of output it produces. You're giving an overview to someone new
-   to nf-core here, in 15-20 seconds. For an example, see https://github.com/nf-core/rnaseq/blob/master/README.md#introduction
--->
-
-<!-- TODO nf-core: Include a figure that guides the user through the major workflow steps. Many nf-core
-     workflows use the "tube map" design for that. See https://nf-co.re/docs/contributing/design_guidelines#examples for examples.   -->
-<!-- TODO nf-core: Fill in short bullet-pointed list of the default steps in the pipeline -->
+**bacQC-ONT** is a bioinformatics pipeline for the assessment of Oxford Nanopore sequence data. It assesses read quality with fastQC, nanoplot and pycoQC, and species composition with Kraken2 and Bracken.
 
 1. Read QC ([`FastQC`](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/))
-2. Present QC for raw reads ([`MultiQC`](http://multiqc.info/))
+2. Calculate fastq summary statistics ([`fastq-scan`](https://github.com/rpetit3/fastq-scan))
+3. ONT Read QC and summary ([`nanoplot`](https://github.com/wdecoster/NanoPlot))
+4. ONT Read QC and summary ([`pycoQC`](https://tleonardi.github.io/pycoQC/)) [OPTIONAL - requires `sequencing_summary.txt` file]
+5. Assign taxonomic labels to sequence reads ([`Kraken 2`](https://ccb.jhu.edu/software/kraken2/))
+6. Re-estimate taxonomic abundance of samples analyzed by kraken 2([`Bracken`](https://ccb.jhu.edu/software/bracken/))
+7. Present QC for raw reads ([`MultiQC`](http://multiqc.info/))
 
-## Usage
+## Quick Start
 
-> **Note**
-> If you are new to Nextflow and nf-core, please refer to [this page](https://nf-co.re/docs/usage/installation) on how
-> to set-up Nextflow. Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-run-a-pipeline)
-> with `-profile test` before running the workflow on actual data.
+1. Install [`Nextflow`](https://www.nextflow.io/docs/latest/getstarted.html#installation) (`>=23.04.0`)
 
-<!-- TODO nf-core: Describe the minimum required steps to execute the pipeline, e.g. how to prepare samplesheets.
-     Explain what rows and columns represent. For instance (please edit as appropriate):
+2. Install any of [`Docker`](https://docs.docker.com/engine/installation/), [`Singularity`](https://www.sylabs.io/guides/3.0/user-guide/) (you can follow [this tutorial](https://singularity-tutorial.github.io/01-installation/)), [`Podman`](https://podman.io/), [`Shifter`](https://nersc.gitlab.io/development/shifter/how-to-use/) or [`Charliecloud`](https://hpc.github.io/charliecloud/) for full pipeline reproducibility _(you can use [`Conda`](https://conda.io/miniconda.html) both to install Nextflow itself and also to manage software within pipelines. Please only use it within pipelines as a last resort; see [docs](https://nf-co.re/usage/configuration#basic-configuration-profiles))_.
 
-First, prepare a samplesheet with your input data that looks as follows:
+3. Download taxonomic databases for Kraken 2 and Bracken (this is a large file and may take a while):
 
-`samplesheet.csv`:
+   ```console
+   wget ftp://ftp.ccb.jhu.edu/pub/data/kraken2_dbs/old/minikraken2_v1_8GB_201904.tgz
 
-```csv
-sample,fastq_1,fastq_2
-CONTROL_REP1,AEG588A1_S1_L002_R1_001.fastq.gz,AEG588A1_S1_L002_R2_001.fastq.gz
+   tar xvfz minikraken2_v1_8GB_201904.tgz
+
+4. You will need to create a samplesheet with information that maps sample ids to barcode ids before running the pipeline. It has to be a comma-separated file with 2 columns (An [example samplesheet](../assets/samplesheet.csv) has been provided with the pipeline.). A final samplesheet file may look something like the one below:
+
+```console
+sample,barcode
+21X983255,1
+70H209408,2
+49Y807476,3
+70N209581,4
 ```
 
-Each row represents a fastq file (single-end) or a pair of fastq files (paired end).
-
--->
-
-Now, you can run the pipeline using:
-
-<!-- TODO nf-core: update the following command to include all required parameters for a minimal example -->
+5. Now, you can run the pipeline using a command like the one below:
 
 ```bash
-nextflow run nf-core/bacqcont \
-   -profile <docker/singularity/.../institute> \
+nextflow run avantonder/bacQC-ONT \
+   -profile singularity \
+   -c <INSTITUTION>.config \
    --input samplesheet.csv \
+   --fastq_dir path/to/fastq/files \
+   --genome_size <ESTIMATED GENOME SIZE e.g. 4000000> \
+   --kraken2db minikraken2_v1_8GB \
+   --brackendb minikraken2_v1_8GB \
    --outdir <OUTDIR>
 ```
 
@@ -66,34 +60,21 @@ nextflow run nf-core/bacqcont \
 > provided by the `-c` Nextflow option can be used to provide any configuration _**except for parameters**_;
 > see [docs](https://nf-co.re/usage/configuration#custom-configuration-files).
 
-For more details and further functionality, please refer to the [usage documentation](https://nf-co.re/bacqcont/usage) and the [parameter documentation](https://nf-co.re/bacqcont/parameters).
+## Documentation
 
-## Pipeline output
+The avantonder/bacQC-ONT pipeline comes with documentation about the pipeline [usage](https://github.com/avantonder/bacQC-ONT/blob/master/docs/usage.md), [parameters](https://github.com/avantonder/bacQC-ONT/blob/master/docs/parameters.md) and [output](https://github.com/avantonder/bacQC-ONT/blob/master/docs/output.md).
 
-To see the results of an example test run with a full size dataset refer to the [results](https://nf-co.re/bacqcont/results) tab on the nf-core website pipeline page.
-For more details about the output files and reports, please refer to the
-[output documentation](https://nf-co.re/bacqcont/output).
+## Acknowledgements
 
-## Credits
+bacQC-ONT was originally written by Andries van Tonder.
 
-nf-core/bacqcont was originally written by Andries J. van Tonder.
+I wouldn't have been able to write this pipeline with out the tools, documentation, pipelines and modules made available by the fantastic [nf-core community](https://nf-co.re/).
 
-We thank the following people for their extensive assistance in the development of this pipeline:
+## Feedback
 
-<!-- TODO nf-core: If applicable, make list of people who have also contributed -->
-
-## Contributions and Support
-
-If you would like to contribute to this pipeline, please see the [contributing guidelines](.github/CONTRIBUTING.md).
-
-For further information or help, don't hesitate to get in touch on the [Slack `#bacqcont` channel](https://nfcore.slack.com/channels/bacqcont) (you can join with [this invite](https://nf-co.re/join/slack)).
+If you have any issues, questions or suggestions for improving bovisanalyzer, please submit them to the [Issue Tracker](https://github.com/avantonder/bacQC-ONT/issues).
 
 ## Citations
-
-<!-- TODO nf-core: Add citation for pipeline after first release. Uncomment lines below and update Zenodo doi and badge at the top of this file. -->
-<!-- If you use  nf-core/bacqcont for your analysis, please cite it using the following doi: [10.5281/zenodo.XXXXXX](https://doi.org/10.5281/zenodo.XXXXXX) -->
-
-<!-- TODO nf-core: Add bibliography of tools and data used in your pipeline -->
 
 An extensive list of references for the tools used by the pipeline can be found in the [`CITATIONS.md`](CITATIONS.md) file.
 
