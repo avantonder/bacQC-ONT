@@ -18,7 +18,6 @@ process FASTQSCANPARSE {
     def parser_version = '1.0'
     """
     fastqscan_parser.py
-    mv fastq-scan_summary.tsv ${prefix}_fastq-scan_summary.tsv
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         fastqscan_parser.py: ${parser_version}
