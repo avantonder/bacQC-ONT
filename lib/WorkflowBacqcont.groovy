@@ -1,5 +1,5 @@
 //
-// This file holds several functions specific to the workflow/bacqcont.nf in the nf-core/bacqcont pipeline
+// This file holds several functions specific to the workflow/bacqcont.nf in the avantonder/bacQC-ONT pipeline
 //
 
 import nextflow.Nextflow
@@ -15,9 +15,9 @@ class WorkflowBacqcont {
         genomeExistsError(params, log)
 
 
-        if (!params.fasta) {
-            Nextflow.error "Genome fasta file not specified with e.g. '--fasta genome.fa' or via a detectable config file."
-        }
+        //if (!params.fasta) {
+          //  Nextflow.error "Genome fasta file not specified with e.g. '--fasta genome.fa' or via a detectable config file."
+        //}
     }
 
     //

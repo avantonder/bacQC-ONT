@@ -1,7 +1,7 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
-    "$id": "https://raw.githubusercontent.com/nf-core/bacqcont/master/nextflow_schema.json",
-    "title": "nf-core/bacqcont pipeline parameters",
+    "$id": "https://raw.githubusercontent.com/avantonder/bacQC-ONT/master/nextflow_schema.json",
+    "title": "avantonder/bacQC-ONT pipeline parameters",
     "description": "This pipeline QCs ONT sequence data",
     "type": "object",
     "definitions": {
@@ -28,6 +28,14 @@
                     "description": "The output directory where the results will be saved. You have to use absolute paths to storage on Cloud infrastructure.",
                     "fa_icon": "fas fa-folder-open"
                 },
+                "fastq_dir": {
+                    "type": "string",
+                    "description": "Path to a folder containing fastq files from the Nanopore run."
+                },
+                "summary_file": {
+                    "type": "string",
+                    "description": "ONT sequencing summary statistics file (sequencing_summary.txt)"
+                },
                 "email": {
                     "type": "string",
                     "description": "Email address for completion summary.",
@@ -42,18 +50,56 @@
                 }
             }
         },
+        "fastq_scan": {
+            "title": "fastq-scan",
+            "type": "object",
+            "description": "fastq-scan related options required for the workflow",
+            "default": "",
+            "properties": {
+                "genome_size": {
+                    "type": "integer",
+                    "description": "Specify a genome size to be used by fastq-scan to calculate coverage e.g. 4300000"
+                }
+            }
+        },
+        "pycoqc": {
+            "title": "PycoQC",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "properties": {
+                "skip_pycoqc": {
+                    "type": "boolean",
+                    "description": "Skip pycoQC (if no sequencing_summary.txt file is available)"
+                }
+            }
+        },
+        "species_composition": {
+            "title": "Species composition",
+            "type": "object",
+            "description": "Kraken 2 and Bracken related files and options required for the workflow",
+            "default": "",
+            "properties": {
+                "skip_kraken2": {
+                    "type": "boolean",
+                    "description": "Skip species composition check"
+                },
+                "kraken2db": {
+                    "type": "string",
+                    "description": "Path to Kraken 2 database"
+                },
+                "brackendb": {
+                    "type": "string",
+                    "description": "Path to Bracken database"
+                }
+            }
+        },
         "reference_genome_options": {
             "title": "Reference genome options",
             "type": "object",
             "fa_icon": "fas fa-dna",
             "description": "Reference genome related files and options required for the workflow.",
             "properties": {
-                "genome": {
-                    "type": "string",
-                    "description": "Name of iGenomes reference.",
-                    "fa_icon": "fas fa-book",
-                    "help_text": "If using a reference genome configured in the pipeline using iGenomes, use this parameter to give the ID for the reference. This is then used to build the full paths for all required reference genome files e.g. `--genome GRCh38`. \n\nSee the [nf-core website docs](https://nf-co.re/usage/reference_genomes) for more details."
-                },
                 "fasta": {
                     "type": "string",
                     "format": "file-path",
@@ -62,22 +108,8 @@
                     "pattern": "^\\S+\\.fn?a(sta)?(\\.gz)?$",
                     "description": "Path to FASTA genome file.",
                     "help_text": "This parameter is *mandatory* if `--genome` is not specified. If you don't have a BWA index available this will be generated for you automatically. Combine with `--save_reference` to save BWA index for future runs.",
-                    "fa_icon": "far fa-file-code"
-                },
-                "igenomes_base": {
-                    "type": "string",
-                    "format": "directory-path",
-                    "description": "Directory / URL base for iGenomes references.",
-                    "default": "s3://ngi-igenomes/igenomes",
-                    "fa_icon": "fas fa-cloud-download-alt",
+                    "fa_icon": "far fa-file-code",
                     "hidden": true
-                },
-                "igenomes_ignore": {
-                    "type": "boolean",
-                    "description": "Do not load the iGenomes reference config.",
-                    "fa_icon": "fas fa-ban",
-                    "hidden": true,
-                    "help_text": "Do not load `igenomes.config` when running the pipeline. You may choose this option if you observe clashes between custom parameters and those supplied in `igenomes.config`."
                 }
             }
         },
@@ -175,14 +207,12 @@
                     "type": "boolean",
                     "description": "Display help text.",
                     "fa_icon": "fas fa-question-circle",
-                    "default": false,
                     "hidden": true
                 },
                 "version": {
                     "type": "boolean",
                     "description": "Display version and exit.",
                     "fa_icon": "fas fa-question-circle",
-                    "default": false,
                     "hidden": true
                 },
                 "publish_dir_mode": {
@@ -206,7 +236,6 @@
                     "type": "boolean",
                     "description": "Send plain-text email instead of HTML.",
                     "fa_icon": "fas fa-remove-format",
-                    "default": false,
                     "hidden": true
                 },
                 "max_multiqc_email_size": {
@@ -221,7 +250,6 @@
                     "type": "boolean",
                     "description": "Do not use coloured log outputs.",
                     "fa_icon": "fas fa-palette",
-                    "default": false,
                     "hidden": true
                 },
                 "hook_url": {
@@ -260,7 +288,6 @@
                     "type": "boolean",
                     "fa_icon": "far fa-eye-slash",
                     "description": "Show all params when using `--help`",
-                    "default": false,
                     "hidden": true,
                     "help_text": "By default, parameters set as _hidden_ in the schema are not shown on the command line when a user runs with `--help`. Specifying this option will tell the pipeline to show all parameters."
                 },
@@ -268,7 +295,6 @@
                     "type": "boolean",
                     "fa_icon": "far fa-check-circle",
                     "description": "Validation of parameters fails when an unrecognised parameter is found.",
-                    "default": false,
                     "hidden": true,
                     "help_text": "By default, when an unrecognised parameter is found, it returns a warinig."
                 },
@@ -276,7 +302,6 @@
                     "type": "boolean",
                     "fa_icon": "far fa-check-circle",
                     "description": "Validation of parameters in lenient more.",
-                    "default": false,
                     "hidden": true,
                     "help_text": "Allows string values that are parseable as numbers or booleans. For further information see [JSONSchema docs](https://github.com/everit-org/json-schema#lenient-mode)."
                 }
@@ -286,6 +311,15 @@
     "allOf": [
         {
             "$ref": "#/definitions/input_output_options"
+        },
+        {
+            "$ref": "#/definitions/fastq_scan"
+        },
+        {
+            "$ref": "#/definitions/pycoqc"
+        },
+        {
+            "$ref": "#/definitions/species_composition"
         },
         {
             "$ref": "#/definitions/reference_genome_options"
