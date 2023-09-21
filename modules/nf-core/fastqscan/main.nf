@@ -1,14 +1,15 @@
 process FASTQSCAN {
     tag "$meta.id"
-    label 'process_low'
+    label 'process_medium'
 
-    conda "bioconda::fastq-scan=0.4.4"
+    conda (params.enable_conda ? "bioconda::fastq-scan=0.4.4" : null)
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/fastq-scan:0.4.4--h7d875b9_0' :
-        'biocontainers/fastq-scan:0.4.4--h7d875b9_0' }"
+        'quay.io/biocontainers/fastq-scan:0.4.4--h7d875b9_0' }"
 
     input:
     tuple val(meta), path(reads)
+    val genome_size
 
     output:
     tuple val(meta), path("*.json"), emit: json
@@ -23,6 +24,7 @@ process FASTQSCAN {
     """
     zcat $reads | \\
         fastq-scan \\
+        -g $genome_size \\
         $args > ${prefix}.json
 
     cat <<-END_VERSIONS > versions.yml
