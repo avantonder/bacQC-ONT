@@ -13,7 +13,7 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
 - [Aggregate pre-demultiplexed reads from MinKNOW/Guppy](#nanopore-artic-guppyplex)
 - [FastQC](#fastqc)
 - [Fastq summary statistics](#fastq-summary-statistics)
-- [Read QC and summary - Nanoplot](#read-qc-and-summary-nanoplot)
+- [Read QC and summary - NanoPlot](#read-qc-and-summary-nanoplot)
 - [Read QC and summary - pycoQC](#read-qc-and-summary-pycoqc)
 - [Assign taxonomy to reads](#assign-taxonomy-to-reads)
 - [Re-estimate taxonomy](#re-estimate-taxonomy)
@@ -59,7 +59,7 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
 
 [fastq-scan](https://github.com/rpetit3/fastq-scan) is a tool for generating FASTQ summary statistics in JSON format.
 
-### Read QC and summary - Nanoplot
+### Read QC and summary - NanoPlot
 
 <details markdown="1">
 <summary>Output files</summary>
