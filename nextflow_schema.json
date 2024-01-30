@@ -87,10 +87,6 @@
                 "kraken2db": {
                     "type": "string",
                     "description": "Path to Kraken 2 database"
-                },
-                "brackendb": {
-                    "type": "string",
-                    "description": "Path to Bracken database"
                 }
             }
         },

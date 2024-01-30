@@ -167,10 +167,8 @@ workflow BACQCONT {
     // MODULE: Run kraken2
     //  
     ch_kraken2db = Channel.empty()
-    ch_brackendb = Channel.empty()
     if (!params.skip_kraken2) {
         ch_kraken2db = file(params.kraken2db)
-        ch_brackendb = file(params.brackendb)
         
         KRAKEN2_KRAKEN2 (
                 ARTIC_GUPPYPLEX.out.fastq,
@@ -184,7 +182,7 @@ workflow BACQCONT {
         //
         BRACKEN_BRACKEN (
                 ch_kraken2_bracken,
-                ch_brackendb
+                ch_kraken2db
             )
         ch_bracken_krakenparse = BRACKEN_BRACKEN.out.reports
         ch_versions            = ch_versions.mix(BRACKEN_BRACKEN.out.versions.first())

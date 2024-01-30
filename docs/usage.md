@@ -42,7 +42,6 @@ nextflow run avantonder/bacQC-ONT \
    --summary_file sequencing_summary.txt \
    --genome_size <ESTIMATED GENOME SIZE e.g. 4000000> \
    --kraken2db path/to/kraken2/dir \
-   --bracken path/to/kraken2/dir/ \
    --outdir <OUTDIR>
 ```
 
