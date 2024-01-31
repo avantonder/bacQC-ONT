@@ -39,7 +39,6 @@ Kraken 2 and Bracken related files and options required for the workflow
 |-----------|-----------|-----------|-----------|-----------|-----------|
 | `skip_kraken2` | Skip species composition check | `boolean` |  |  |  |
 | `kraken2db` | Path to Kraken 2 database | `string` |  |  |  |
-| `brackendb` | Path to Bracken database | `string` |  |  |  |
 
 ## Reference genome options
 
