@@ -1,5 +1,5 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema",
+    "$schema": "https://json-schema.org/draft-07/schema",
     "$id": "https://raw.githubusercontent.com/avantonder/bacQC-ONT/master/nextflow_schema.json",
     "title": "avantonder/bacQC-ONT pipeline parameters",
     "description": "This pipeline QCs ONT sequence data",
@@ -27,10 +27,6 @@
                     "format": "directory-path",
                     "description": "The output directory where the results will be saved. You have to use absolute paths to storage on Cloud infrastructure.",
                     "fa_icon": "fas fa-folder-open"
-                },
-                "fastq_dir": {
-                    "type": "string",
-                    "description": "Path to a folder containing fastq files from the Nanopore run."
                 },
                 "summary_file": {
                     "type": "string",
@@ -70,7 +66,8 @@
             "properties": {
                 "skip_pycoqc": {
                     "type": "boolean",
-                    "description": "Skip pycoQC (if no sequencing_summary.txt file is available)"
+                    "description": "Skip pycoQC (if no sequencing_summary.txt file is available)",
+                    "default": true
                 }
             }
         },
@@ -329,5 +326,14 @@
         {
             "$ref": "#/definitions/generic_options"
         }
-    ]
+    ],
+    "properties": {
+        "kronadb": {
+            "type": "string"
+        },
+        "pipelines_testdata_base_path": {
+            "type": "string",
+            "default": "https://raw.githubusercontent.com/nf-core/test-datasets/"
+        }
+    }
 }

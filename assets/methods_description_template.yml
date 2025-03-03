@@ -3,8 +3,6 @@ description: "Suggested text and references to use when describing pipeline usag
 section_name: "avantonder/bacQC-ONT Methods Description"
 section_href: "https://github.com/avantonder/bacQC-ONT"
 plot_type: "html"
-## TODO nf-core: Update the HTML below to your preferred methods description, e.g. add publication citation for this pipeline
-## You inject any metadata in the Nextflow '${workflow}' object
 data: |
   <h4>Methods</h4>
   <p>Data was processed using avantonder/bacQC-ONT v${workflow.manifest.version} ${doi_text}</p>
