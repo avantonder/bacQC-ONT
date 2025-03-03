@@ -15,9 +15,9 @@ nextflow.enable.dsl = 2
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { BACQCONT                   } from './workflows/bacqc'
-include { PIPELINE_INITIALISATION } from './subworkflows/local/utils_bacqc_pipeline'
-include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_bacqc_pipeline'
+include { BACQCONT                } from './workflows/bacqcont'
+include { PIPELINE_INITIALISATION } from './subworkflows/local/utils_bacqcont_pipeline'
+include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_bacqcont_pipeline'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -46,7 +46,7 @@ workflow AVANTONDER_BACQCONT {
     //
     // WORKFLOW: Run pipeline
     //
-    BACQC (
+    BACQCONT (
         samplesheet
     )
 
