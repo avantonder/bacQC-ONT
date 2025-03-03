@@ -63,7 +63,7 @@ include { MULTIQC                       } from '../modules/nf-core/multiqc/main'
 workflow BACQCONT {
 
     take:
-    samplesheet // channel: samplesheet read in from --input
+    ch_samplesheet // channel: samplesheet read in from --input
 
     main:
     
@@ -71,7 +71,7 @@ workflow BACQCONT {
     ch_multiqc_files = Channel.empty()
       
     // Validate input file and create channel for FASTQ data
-    ch_input = samplesheet
+    ch_input = ch_samplesheet
         .map { meta, fastq -> 
         
         // Define single_end
