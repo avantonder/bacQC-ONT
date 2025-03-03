@@ -337,7 +337,15 @@
         },
         "trace_report_suffix": {
             "type": "string",
-            "default": "2025-03-03_11-23-23"
+            "default": "2025-03-03_11-28-25"
+        },
+        "perform_runmerging": {
+            "type": "boolean",
+            "default": true
+        },
+        "save_runmerged_reads": {
+            "type": "boolean",
+            "default": true
         }
     }
 }
