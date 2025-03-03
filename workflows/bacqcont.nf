@@ -163,7 +163,7 @@ workflow BACQCONT {
         ch_kronadb   = file(params.kronadb)
         
         KRAKEN2_KRAKEN2 (
-                ch_filtered_reads,
+                ch_reads_runmerged,
                 ch_kraken2db,
                 params.save_output_fastqs,
                 params.save_reads_assignment
