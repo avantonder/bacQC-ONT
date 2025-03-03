@@ -67,8 +67,12 @@ workflow PIPELINE_INITIALISATION {
     //
 
     Channel
-        .fromList(samplesheetToList(params.input, "assets/schema_input.json"))
+        .fromSamplesheet("input")
         .set { ch_samplesheet }
+    
+    //Channel
+    //    .fromList(samplesheetToList(params.input, "assets/schema_input.json"))
+    //    .set { ch_samplesheet }
 
     emit:
     samplesheet = ch_samplesheet
