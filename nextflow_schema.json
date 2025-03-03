@@ -334,6 +334,10 @@
         "pipelines_testdata_base_path": {
             "type": "string",
             "default": "https://raw.githubusercontent.com/nf-core/test-datasets/"
+        },
+        "trace_report_suffix": {
+            "type": "string",
+            "default": "2025-03-03_11-23-23"
         }
     }
 }
