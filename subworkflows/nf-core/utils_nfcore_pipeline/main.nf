@@ -136,6 +136,28 @@ def paramsSummaryMultiqc(summary_params) {
 }
 
 //
+// nf-core logo
+//
+def nfCoreLogo(monochrome_logs=true) {
+    def colors = logColours(monochrome_logs) as Map
+    String.format(
+        """\n
+        ${dashedLine(monochrome_logs)}
+        ${colors.purple}  ${workflow.manifest.name} ${getWorkflowVersion()}${colors.reset}
+        ${dashedLine(monochrome_logs)}
+        """.stripIndent()
+    )
+}
+
+//
+// Return dashed line
+//
+def dashedLine(monochrome_logs=true) {
+    def colors = logColours(monochrome_logs) as Map
+    return "-${colors.dim}----------------------------------------------------${colors.reset}-"
+}
+
+//
 // ANSII colours used for terminal logging
 //
 def logColours(monochrome_logs=true) {
