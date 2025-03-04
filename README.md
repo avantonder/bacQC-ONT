@@ -16,11 +16,12 @@
 4. ONT Read QC and summary ([`pycoQC`](https://tleonardi.github.io/pycoQC/)) [OPTIONAL - requires `sequencing_summary.txt` file]
 5. Assign taxonomic labels to sequence reads ([`Kraken 2`](https://ccb.jhu.edu/software/kraken2/))
 6. Re-estimate taxonomic abundance of samples analyzed by kraken 2([`Bracken`](https://ccb.jhu.edu/software/bracken/))
-7. Present QC for raw reads ([`MultiQC`](http://multiqc.info/))
+7. Visualize Bracken reports with ([`Krona`](https://github.com/marbl/Krona))
+8. Present QC for raw reads ([`MultiQC`](http://multiqc.info/))
 
 ## Quick Start
 
-1. Install [`Nextflow`](https://www.nextflow.io/docs/latest/getstarted.html#installation) (`>=23.04.0`)
+1. Install [`Nextflow`](https://www.nextflow.io/docs/latest/getstarted.html#installation) (`>=24.04.0`)
 
 2. Install any of [`Docker`](https://docs.docker.com/engine/installation/), [`Singularity`](https://www.sylabs.io/guides/3.0/user-guide/) (you can follow [this tutorial](https://singularity-tutorial.github.io/01-installation/)), [`Podman`](https://podman.io/), [`Shifter`](https://nersc.gitlab.io/development/shifter/how-to-use/) or [`Charliecloud`](https://hpc.github.io/charliecloud/) for full pipeline reproducibility _(you can use [`Conda`](https://conda.io/miniconda.html) both to install Nextflow itself and also to manage software within pipelines. Please only use it within pipelines as a last resort; see [docs](https://nf-co.re/usage/configuration#basic-configuration-profiles))_.
 
@@ -31,15 +32,26 @@
 
    tar xvfz minikraken2_v1_8GB_201904.tgz
 
-4. You will need to create a samplesheet with information that maps sample ids to barcode ids before running the pipeline. It has to be a comma-separated file with 2 columns (An [example samplesheet](../assets/samplesheet.csv) has been provided with the pipeline.). A final samplesheet file may look something like the one below:
+4. Download the taxonomy file for Krona (this requires Krona to be installed e.g. with Conda):
 
-```console
-sample,barcode
-21X983255,1
-70H209408,2
-49Y807476,3
-70N209581,4
-```
+   ```console
+   ktUpdateTaxonomy.sh .
+   ```
+
+5. You will need to create a samplesheet with information about the samples you would like to analyse before running the pipeline. It has to be a comma-separated file with 2 columns, and a header row as shown in the example below. An executable Python script called [`build_samplesheet.py`](https://github.com/avantonder/bacQC-ONT/blob/master/bin/build_samplesheet.py) has been provided to auto-create an input samplesheet based on a directory containing sub-directories with the prefix `barcode` which contain the FastQ files **before** you run the pipeline (requires Python 3 installed locally) e.g.
+
+     ```console
+     wget -L https://github.com/avantonder/bacQC-ONT/blob/master/bin/build_samplesheet.py
+
+     python build_samplesheet.py -i <FASTQ_DIR> 
+     ```
+   
+   ```console
+   sample,fastq
+   SAMPLE_1,path/to/fastq/file1
+   SAMPLE_1,path/to/fastq/file2
+   SAMPLE_2,path/to/fastq/file1  
+   ```
 
 5. Now, you can run the pipeline using a command like the one below:
 
@@ -48,10 +60,10 @@ nextflow run avantonder/bacQC-ONT \
    -profile singularity \
    -c <INSTITUTION>.config \
    --input samplesheet.csv \
-   --fastq_dir path/to/fastq/files \
    --summary_file sequencing_summary.txt \
    --genome_size <ESTIMATED GENOME SIZE e.g. 4000000> \
    --kraken2db minikraken2_v1_8GB \
+   --kronadb taxonomy.tab \
    --outdir <OUTDIR>
 ```
 
