@@ -333,28 +333,28 @@
     },
     "allOf": [
         {
-            "$ref": "#/$defs/input_output_options"
+            "$ref": "#/definitions/input_output_options"
         },
         {
-            "$ref": "#/$defs/fastq_scan_options"
+            "$ref": "#/definitions/fastq_scan_options"
         },
         {
-            "$ref": "#/$defs/pycoqc_options"
+            "$ref": "#/definitions/pycoqc_options"
         },
         {
-            "$ref": "#/$defs/kraken_options"
+            "$ref": "#/definitions/kraken_options"
         },
         {
-            "$ref": "#/$defs/krona_options"
+            "$ref": "#/definitions/krona_options"
         },
         {
-            "$ref": "#/$defs/institutional_config_options"
+            "$ref": "#/definitions/institutional_config_options"
         },
         {
-            "$ref": "#/$defs/max_job_request_options"
+            "$ref": "#/definitions/max_job_request_options"
         },
         {
-            "$ref": "#/$defs/generic_options"
+            "$ref": "#/definitions/generic_options"
         }
     ]
 }
