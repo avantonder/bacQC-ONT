@@ -1,5 +1,5 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema",
+    "$schema": "https://json-schema.org/draft-07/schema",
     "$id": "https://raw.githubusercontent.com/avantonder/bacQC-ONT/master/nextflow_schema.json",
     "title": "avantonder/bacQC-ONT pipeline parameters",
     "description": "This pipeline QCs ONT sequence data",
@@ -10,12 +10,16 @@
             "type": "object",
             "fa_icon": "fas fa-terminal",
             "description": "Define where the pipeline should find input data and save output data.",
-            "required": ["input", "outdir"],
+            "required": [
+                "input",
+                "outdir"
+            ],
             "properties": {
                 "input": {
                     "type": "string",
                     "format": "file-path",
                     "exists": true,
+                    "schema": "assets/schema_input.json",
                     "mimetype": "text/csv",
                     "pattern": "^\\S+\\.csv$",
                     "description": "Path to comma-separated file containing information about the samples in the experiment.",
@@ -27,10 +31,6 @@
                     "format": "directory-path",
                     "description": "The output directory where the results will be saved. You have to use absolute paths to storage on Cloud infrastructure.",
                     "fa_icon": "fas fa-folder-open"
-                },
-                "fastq_dir": {
-                    "type": "string",
-                    "description": "Path to a folder containing fastq files from the Nanopore run."
                 },
                 "summary_file": {
                     "type": "string",
@@ -47,11 +47,21 @@
                     "type": "string",
                     "description": "MultiQC report title. Printed as page header, used for filename if not otherwise specified.",
                     "fa_icon": "fas fa-file-signature"
+                },
+                "perform_runmerging": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Turn on run merging"
+                },
+                "save_runmerged_reads": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Save reads from samples that went through the run-merging step"
                 }
             }
         },
-        "fastq_scan": {
-            "title": "fastq-scan",
+        "fastq_scan_options": {
+            "title": "fastq-scan options",
             "type": "object",
             "description": "fastq-scan related options required for the workflow",
             "default": "",
@@ -62,20 +72,21 @@
                 }
             }
         },
-        "pycoqc": {
-            "title": "PycoQC",
+        "pycoqc_options": {
+            "title": "PycoQC options",
             "type": "object",
             "description": "",
             "default": "",
             "properties": {
                 "skip_pycoqc": {
                     "type": "boolean",
-                    "description": "Skip pycoQC (if no sequencing_summary.txt file is available)"
+                    "description": "Skip pycoQC (if no sequencing_summary.txt file is available)",
+                    "default": true
                 }
             }
         },
-        "species_composition": {
-            "title": "Species composition",
+        "kraken_options": {
+            "title": "Kraken options",
             "type": "object",
             "description": "Kraken 2 and Bracken related files and options required for the workflow",
             "default": "",
@@ -87,25 +98,26 @@
                 "kraken2db": {
                     "type": "string",
                     "description": "Path to Kraken 2 database"
+                },
+                "save_output_fastqs": {
+                    "type": "boolean",
+                    "description": "Turn on saving of Kraken2 per-read taxonomic assignment file"
+                },
+                "save_reads_assignment": {
+                    "type": "boolean",
+                    "default": true
                 }
             }
         },
-        "reference_genome_options": {
-            "title": "Reference genome options",
+        "krona_options": {
+            "title": "Krona options",
             "type": "object",
-            "fa_icon": "fas fa-dna",
-            "description": "Reference genome related files and options required for the workflow.",
+            "description": "",
+            "default": "",
             "properties": {
-                "fasta": {
+                "kronadb": {
                     "type": "string",
-                    "format": "file-path",
-                    "exists": true,
-                    "mimetype": "text/plain",
-                    "pattern": "^\\S+\\.fn?a(sta)?(\\.gz)?$",
-                    "description": "Path to FASTA genome file.",
-                    "help_text": "This parameter is *mandatory* if `--genome` is not specified. If you don't have a BWA index available this will be generated for you automatically. Combine with `--save_reference` to save BWA index for future runs.",
-                    "fa_icon": "far fa-file-code",
-                    "hidden": true
+                    "description": "Path to Krona taxonomy.tab file"
                 }
             }
         },
@@ -217,7 +229,14 @@
                     "description": "Method used to save pipeline results to output directory.",
                     "help_text": "The Nextflow `publishDir` option specifies which intermediate files should be saved to the output directory. This option tells the pipeline what method should be used to move these files. See [Nextflow docs](https://www.nextflow.io/docs/latest/process.html#publishdir) for details.",
                     "fa_icon": "fas fa-copy",
-                    "enum": ["symlink", "rellink", "link", "copy", "copyNoFollow", "move"],
+                    "enum": [
+                        "symlink",
+                        "rellink",
+                        "link",
+                        "copy",
+                        "copyNoFollow",
+                        "move"
+                    ],
                     "hidden": true
                 },
                 "email_on_fail": {
@@ -300,34 +319,42 @@
                     "description": "Validation of parameters in lenient more.",
                     "hidden": true,
                     "help_text": "Allows string values that are parseable as numbers or booleans. For further information see [JSONSchema docs](https://github.com/everit-org/json-schema#lenient-mode)."
+                },
+                "pipelines_testdata_base_path": {
+                    "type": "string",
+                    "default": "https://raw.githubusercontent.com/nf-core/test-datasets/"
+                },
+                "trace_report_suffix": {
+                    "type": "string",
+                    "default": "2025-03-04_14-01-29"
                 }
             }
         }
     },
     "allOf": [
         {
-            "$ref": "#/definitions/input_output_options"
+            "$ref": "#/$defs/input_output_options"
         },
         {
-            "$ref": "#/definitions/fastq_scan"
+            "$ref": "#/$defs/fastq_scan_options"
         },
         {
-            "$ref": "#/definitions/pycoqc"
+            "$ref": "#/$defs/pycoqc_options"
         },
         {
-            "$ref": "#/definitions/species_composition"
+            "$ref": "#/$defs/kraken_options"
         },
         {
-            "$ref": "#/definitions/reference_genome_options"
+            "$ref": "#/$defs/krona_options"
         },
         {
-            "$ref": "#/definitions/institutional_config_options"
+            "$ref": "#/$defs/institutional_config_options"
         },
         {
-            "$ref": "#/definitions/max_job_request_options"
+            "$ref": "#/$defs/max_job_request_options"
         },
         {
-            "$ref": "#/definitions/generic_options"
+            "$ref": "#/$defs/generic_options"
         }
     ]
 }

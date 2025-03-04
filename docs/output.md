@@ -18,6 +18,7 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
 - [Assign taxonomy to reads](#assign-taxonomy-to-reads)
 - [Re-estimate taxonomy](#re-estimate-taxonomy)
 - [Species composition](#calculate-species-composition)
+- [Visualize taxonomy](#visualize-taxonomy)
 - [Sequencing statistics](#sequencing-statistics)
 - [MultiQC](#multiqc)
 - [Pipeline information](#pipeline-information)
@@ -124,6 +125,18 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
 </details>
 
 [kraken_parser.py](https://github.com/avantonder/bacQC/blob/main/bin/kraken_parser.py) is a script used to summarise the results of Kraken 2 and Bracken for all samples.
+
+### Visualize taxonomy
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `krona/`
+  - `*.html`: HTML files containing taxonomy visualizations
+
+</details>
+
+[Krona](https://pubmed.ncbi.nlm.nih.gov/21961884/) creates interactive metagenomic visualizations in a Web browser.
 
 ## Sequencing statistics
 
