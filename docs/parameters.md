@@ -1,6 +1,6 @@
 # avantonder/bacQC-ONT pipeline parameters                                                                                         
                                                                                                                                    
-This pipeline QCs ONT sequence data                                                                                                
+**bacQC-ONT** is a bioinformatics pipeline for the assessment of Oxford Nanopore sequence data. It assesses read quality with `fastQC`, `nanoplot` and `pycoQC`, and species composition with `Kraken2` and `Bracken`.                                                                                                
                                                                                                                                    
 ## Input/output options                                                                                                            
                                                                                                                                    
