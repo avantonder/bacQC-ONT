@@ -1,6 +1,6 @@
 # ![avantonder/bacQC-ONT](docs/images/bacQC-ONT_metromap.png)
 
-[![Cite with Zenodo](https://zenodo.org/badge/681230079.svg)](https://doi.org/10.5281/zenodo.15040673)
+[![Cite with Zenodo](https://zenodo.org/badge/694107767.svg)](https://doi.org/10.5281/zenodo.15052401)
 
 [![Nextflow](https://img.shields.io/badge/nextflow%20DSL2-%E2%89%A524.04.2-23aa62.svg)](https://www.nextflow.io/)
 [![run with conda](http://img.shields.io/badge/run%20with-conda-3EB049?labelColor=000000&logo=anaconda)](https://docs.conda.io/en/latest/)
@@ -91,6 +91,6 @@ If you have any issues, questions or suggestions for improving bovisanalyzer, pl
 
 ## Citations
 
-If you use the avantonder/assembleBAC-ONT pipeline, please cite it using the following doi: [10.5281/zenodo.15040673](https://doi.org/10.5281/zenodo.15040673)
+If you use the avantonder/assembleBAC-ONT pipeline, please cite it using the following doi: [10.5281/zenodo.15052401](https://doi.org/10.5281/zenodo.15052401)
 
 An extensive list of references for the tools used by the pipeline can be found in the [`CITATIONS.md`](CITATIONS.md) file.
