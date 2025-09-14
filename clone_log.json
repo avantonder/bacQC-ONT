@@ -564,5 +564,32 @@
         "uniques": 1
       }
     ]
+  },
+  {
+    "timestamp": "2025-09-14T01:08:44.425447",
+    "total_clones": 5,
+    "unique_cloners": 5,
+    "daily_data": [
+      {
+        "timestamp": "2025-08-31T00:00:00Z",
+        "count": 1,
+        "uniques": 1
+      },
+      {
+        "timestamp": "2025-09-03T00:00:00Z",
+        "count": 1,
+        "uniques": 1
+      },
+      {
+        "timestamp": "2025-09-07T00:00:00Z",
+        "count": 2,
+        "uniques": 2
+      },
+      {
+        "timestamp": "2025-09-13T00:00:00Z",
+        "count": 1,
+        "uniques": 1
+      }
+    ]
   }
 ]
