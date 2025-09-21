@@ -591,5 +591,32 @@
         "uniques": 1
       }
     ]
+  },
+  {
+    "timestamp": "2025-09-21T01:10:35.250425",
+    "total_clones": 9,
+    "unique_cloners": 9,
+    "daily_data": [
+      {
+        "timestamp": "2025-09-13T00:00:00Z",
+        "count": 1,
+        "uniques": 1
+      },
+      {
+        "timestamp": "2025-09-14T00:00:00Z",
+        "count": 5,
+        "uniques": 5
+      },
+      {
+        "timestamp": "2025-09-18T00:00:00Z",
+        "count": 2,
+        "uniques": 2
+      },
+      {
+        "timestamp": "2025-09-20T00:00:00Z",
+        "count": 1,
+        "uniques": 1
+      }
+    ]
   }
 ]
