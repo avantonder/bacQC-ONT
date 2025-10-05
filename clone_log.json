@@ -650,5 +650,37 @@
         "uniques": 2
       }
     ]
+  },
+  {
+    "timestamp": "2025-10-05T01:10:38.399397",
+    "total_clones": 8,
+    "unique_cloners": 8,
+    "daily_data": [
+      {
+        "timestamp": "2025-09-21T00:00:00Z",
+        "count": 1,
+        "uniques": 1
+      },
+      {
+        "timestamp": "2025-09-22T00:00:00Z",
+        "count": 1,
+        "uniques": 1
+      },
+      {
+        "timestamp": "2025-09-27T00:00:00Z",
+        "count": 2,
+        "uniques": 2
+      },
+      {
+        "timestamp": "2025-09-28T00:00:00Z",
+        "count": 3,
+        "uniques": 3
+      },
+      {
+        "timestamp": "2025-10-04T00:00:00Z",
+        "count": 1,
+        "uniques": 1
+      }
+    ]
   }
 ]
